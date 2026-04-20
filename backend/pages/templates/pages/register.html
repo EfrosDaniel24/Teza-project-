@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ro">
+  <head>
+    {% load static %}
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Health Care — Înregistrare</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;700&family=Work+Sans:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="{% static 'pages/css/register.css' %}" />
+  </head>
+  <body>
+    <div class="page">
+      <header class="topbar">
+        <div class="logo">
+          <div class="logo-mark" aria-hidden="true">
+            <span></span>
+            <span></span>
+          </div>
+          <div class="logo-copy">
+            <div class="logo-text">Health Care</div>
+          </div>
+        </div>
+        <nav class="nav">
+          <a class="nav-link" href="{% url 'landing' %}">Home</a>
+          <a class="nav-link" href="{% url 'about' %}">Despre noi</a>
+          <a class="nav-link" href="{% url 'howto' %}">Cum se folosește</a>
+          <a class="nav-link" href="{% url 'nutrition' %}">Nutritie</a>
+        </nav>
+        <div class="top-actions">
+          <a class="link" href="{% url 'login' %}">Conectare</a>
+          <a class="btn-secondary" href="{% url 'register' %}">Înregistrare</a>
+        </div>
+      </header>
+
+      <main class="register">
+        <section class="register-left">
+          <h1>Soluția pentru sănătatea ta!</h1>
+          <p>Ai grijă de corpul tău!</p>
+        </section>
+
+        <section class="register-card">
+          <h2>Creează cont</h2>
+          <form class="form" method="post" novalidate>
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+            <label class="input">
+              <span>Email</span>
+              {{ form.email }}
+              <span class="icon">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path
+                    d="M4 6h16a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  />
+                  <path d="M22 8l-10 7L2 8" fill="none" stroke="currentColor" stroke-width="2" />
+                </svg>
+              </span>
+            </label>
+            {{ form.email.errors }}
+
+            <label class="input">
+              <span>Parola</span>
+              {{ form.password }}
+              <span class="icon">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path
+                    d="M4 12s3-5 8-5 8 5 8 5-3 5-8 5-8-5-8-5z"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  />
+                  <circle cx="12" cy="12" r="2" fill="currentColor" />
+                </svg>
+              </span>
+            </label>
+            {{ form.password.errors }}
+
+            <div class="row">
+              <label class="input">
+                <span>Vârsta</span>
+                {{ form.age }}
+                <span class="icon">
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2" />
+                    <path d="M12 7v5l3 3" fill="none" stroke="currentColor" stroke-width="2" />
+                  </svg>
+                </span>
+              </label>
+              {{ form.age.errors }}
+              <label class="input">
+                <span>Genul</span>
+                {{ form.gender }}
+                <span class="icon">
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path
+                      d="M7 7l10 10M12 6a4 4 0 1 0 0 8 4 4 0 0 0 0-8z"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                    />
+                  </svg>
+                </span>
+              </label>
+              {{ form.gender.errors }}
+            </div>
+
+            <div class="row">
+              <label class="input">
+                <span>Înălțime</span>
+                {{ form.height_cm }}
+                <span class="icon">
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M12 4v16" fill="none" stroke="currentColor" stroke-width="2" />
+                    <path d="M8 8l4-4 4 4" fill="none" stroke="currentColor" stroke-width="2" />
+                    <path d="M8 16l4 4 4-4" fill="none" stroke="currentColor" stroke-width="2" />
+                  </svg>
+                </span>
+              </label>
+              {{ form.height_cm.errors }}
+              <label class="input">
+                <span>Greutate</span>
+                {{ form.weight_kg }}
+                <span class="icon">
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path
+                      d="M7 6h10l2 12H5L7 6z"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    />
+                    <path d="M9 10h6" fill="none" stroke="currentColor" stroke-width="2" />
+                  </svg>
+                </span>
+              </label>
+              {{ form.weight_kg.errors }}
+            </div>
+
+            <button type="submit" class="btn-primary">Înregistrare</button>
+
+            <div class="divider">
+              <span>Or continue with</span>
+            </div>
+
+            <button type="button" class="btn-google">
+              <span>G</span>
+            </button>
+          </form>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>

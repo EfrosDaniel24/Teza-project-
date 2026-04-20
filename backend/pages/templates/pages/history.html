@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="ro">
+  <head>
+    {% load static %}
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Health Care — Istoric</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Sora:wght@500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="{% static 'pages/css/portal.css' %}?v=20260419-1742" />
+  </head>
+  <body>
+    <div class="page">
+      <header class="topbar">
+        <a href="{% url 'dashboard' %}" class="brand">
+          <span class="brand-mark" aria-hidden="true"></span>
+          <span class="brand-text">Health Care</span>
+        </a>
+        <nav class="menu">
+          <a href="{% url 'dashboard' %}">Dashboard</a>
+          <a href="{% url 'nutrition' %}">Nutriție</a>
+          <a href="{% url 'profile' %}">Profil</a>
+          <a href="{% url 'goals' %}">Obiective</a>
+          <a href="{% url 'habits' %}">Obiceiuri</a>
+          <a href="{% url 'history' %}" class="active">Istoric</a>
+          <a href="{% url 'logout' %}" class="logout">Logout</a>
+        </nav>
+      </header>
+
+      <section class="shell">
+        <div class="header-row">
+          <div>
+            <h1>Istoric & Programări</h1>
+            <p>Monitorizează datele salvate și gestionează înregistrările</p>
+          </div>
+          <span class="chip">ultimele date</span>
+        </div>
+
+        <div class="grid-2">
+          <article class="card">
+            <h2>Măsurători Sănătate</h2>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Data</th>
+                    <th>Glicemie</th>
+                    <th>BPM</th>
+                    <th>TA</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for item in metrics %}
+                    <tr>
+                      <td>{{ item.created_at|date:"d.m.Y H:i" }}</td>
+                      <td>{{ item.blood_sugar_mg }}</td>
+                      <td>{{ item.bpm }}</td>
+                      <td>{{ item.blood_pressure_sys }}/{{ item.blood_pressure_dia }}</td>
+                      <td>
+                        <form method="post" class="danger-form">
+                          {% csrf_token %}
+                          <input type="hidden" name="action" value="delete_metric" />
+                          <input type="hidden" name="metric_id" value="{{ item.id }}" />
+                          <button type="submit">Șterge</button>
+                        </form>
+                      </td>
+                    </tr>
+                  {% empty %}
+                    <tr>
+                      <td colspan="5" class="helper">Nu există măsurători încă.</td>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </article>
+
+          <article class="card">
+            <h2>Adaugă Programare</h2>
+            <form method="post" novalidate>
+              {% csrf_token %}
+              <input type="hidden" name="action" value="add_appointment" />
+              <div class="form-grid">
+                <label><span>Data</span>{{ appointment_form.date }}</label>
+                <label><span>Titlu</span>{{ appointment_form.title }}</label>
+              </div>
+              <div class="btn-row">
+                <button type="submit">Salvează programarea</button>
+              </div>
+            </form>
+
+            <h3 style="margin-top:16px;">Lista Programărilor</h3>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Data</th>
+                    <th>Titlu</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for item in appointments %}
+                    <tr>
+                      <td>{{ item.date|date:"d.m.Y" }}</td>
+                      <td>{{ item.title }}</td>
+                      <td>
+                        <form method="post" class="danger-form">
+                          {% csrf_token %}
+                          <input type="hidden" name="action" value="delete_appointment" />
+                          <input type="hidden" name="appointment_id" value="{{ item.id }}" />
+                          <button type="submit">Șterge</button>
+                        </form>
+                      </td>
+                    </tr>
+                  {% empty %}
+                    <tr>
+                      <td colspan="3" class="helper">Nu ai programări.</td>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </article>
+        </div>
+
+        <div class="grid-2" style="margin-top:16px;">
+          <article class="card">
+            <h2>Rezumat Nutriție (pe zile)</h2>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Data</th>
+                    <th>Calorii</th>
+                    <th>Proteine</th>
+                    <th>Carbo</th>
+                    <th>Grăsimi</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for day in food_daily %}
+                    <tr>
+                      <td>{{ day.date|date:"d.m.Y" }}</td>
+                      <td>{{ day.calories|default:0 }} kcal</td>
+                      <td>{{ day.protein|default:0 }} g</td>
+                      <td>{{ day.carbs|default:0 }} g</td>
+                      <td>{{ day.fat|default:0 }} g</td>
+                    </tr>
+                  {% empty %}
+                    <tr>
+                      <td colspan="5" class="helper">Nu există date nutriționale.</td>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </article>
+
+          <article class="card">
+            <h2>Alimente Recente</h2>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Data</th>
+                    <th>Masa</th>
+                    <th>Aliment</th>
+                    <th>Kcal</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for food in food_entries %}
+                    <tr>
+                      <td>{{ food.date|date:"d.m.Y" }}</td>
+                      <td>{{ food.get_meal_type_display }}</td>
+                      <td>{{ food.name }}</td>
+                      <td>{{ food.calories }}</td>
+                      <td>
+                        <form method="post" class="danger-form">
+                          {% csrf_token %}
+                          <input type="hidden" name="action" value="delete_food" />
+                          <input type="hidden" name="entry_id" value="{{ food.id }}" />
+                          <button type="submit">Șterge</button>
+                        </form>
+                      </td>
+                    </tr>
+                  {% empty %}
+                    <tr>
+                      <td colspan="5" class="helper">Nu ai adăugat alimente încă.</td>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </article>
+        </div>
+      </section>
+    </div>
+  </body>
+</html>

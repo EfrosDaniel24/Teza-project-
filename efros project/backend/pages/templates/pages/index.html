@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ro">
+  <head>
+    {% load static %}
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Apple Health+ — Landing</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;700&family=Work+Sans:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="{% static 'pages/css/styles.css' %}" />
+  </head>
+  <body>
+    <div class="page">
+      <header class="topbar">
+        <div class="logo">
+          <div class="logo-mark" aria-hidden="true">
+            <span></span>
+            <span></span>
+          </div>
+          <div class="logo-text">
+            Apple Health<span>+</span>
+          </div>
+        </div>
+        <nav class="nav">
+          <a class="nav-link active" href="{% url 'landing' %}">Home</a>
+          <a class="nav-link" href="{% url 'about' %}">About Us</a>
+          <a class="nav-link" href="{% url 'howto' %}">How to use</a>
+        </nav>
+        {% if user.is_authenticated %}
+          <a class="btn-primary" href="{% url 'dashboard' %}">Dashboard</a>
+        {% else %}
+          <a class="btn-primary" href="{% url 'login' %}">Log In</a>
+        {% endif %}
+      </header>
+
+      <main>
+        <section class="hero">
+          <div class="hero-content">
+            <div class="pill">
+              <span>Sănătatea ta contează!</span>
+              <div class="pill-heart">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path
+                    d="M12 20.2s-6.9-4.3-9.3-8.2C.9 8.3 2 5 5.5 4.3c2-.4 4 .5 5.2 2.2 1.2-1.7 3.2-2.6 5.2-2.2C20 5 21.1 8.3 21.3 12c-2.4 3.9-9.3 8.2-9.3 8.2z"
+                  />
+                </svg>
+              </div>
+            </div>
+            <h1>
+              SOLUȚIA PENTRU<br />
+              SĂNĂTATEA TA!
+            </h1>
+            <p>
+              Utilizează Măsurările tale pentru a calcula ce ți se
+              potrivește...
+            </p>
+          </div>
+          <div class="hero-orb" aria-hidden="true"></div>
+        </section>
+
+        <section class="features">
+          <div class="features-header">
+            <span>Ce promovăm</span>
+          </div>
+          <div class="features-grid">
+            <article class="feature">
+              <div class="feature-icon">
+                <svg viewBox="0 0 48 48" aria-hidden="true">
+                  <path
+                    d="M24 6c-7.5 0-13.5 6-13.5 13.5S16.5 33 24 33s13.5-6 13.5-13.5S31.5 6 24 6z"
+                  />
+                  <path
+                    d="M9 40h30c1.7 0 3-1.3 3-3v-4H6v4c0 1.7 1.3 3 3 3z"
+                  />
+                </svg>
+              </div>
+              <h3>Calcularea BMI...</h3>
+              <p>
+                We calculate your BMI index from data like age, height,
+                weight.
+              </p>
+            </article>
+            <article class="feature">
+              <div class="feature-icon">
+                <svg viewBox="0 0 48 48" aria-hidden="true">
+                  <path
+                    d="M10 10h28v18c0 4.4-3.6 8-8 8H18c-4.4 0-8-3.6-8-8V10z"
+                  />
+                  <circle cx="18" cy="22" r="3" />
+                  <circle cx="30" cy="22" r="3" />
+                  <path
+                    d="M18 30c2 2 10 2 12 0"
+                    stroke="currentColor"
+                    stroke-width="3"
+                    fill="none"
+                    stroke-linecap="round"
+                  />
+                </svg>
+              </div>
+              <h3>Interactive Chatbot</h3>
+              <p>
+                Solve your queries by interacting with our bot.
+              </p>
+            </article>
+            <article class="feature">
+              <div class="feature-icon">
+                <svg viewBox="0 0 48 48" aria-hidden="true">
+                  <path
+                    d="M8 36h32"
+                    stroke="currentColor"
+                    stroke-width="3"
+                    stroke-linecap="round"
+                  />
+                  <rect x="12" y="22" width="6" height="12" rx="2" />
+                  <rect x="21" y="16" width="6" height="18" rx="2" />
+                  <rect x="30" y="10" width="6" height="24" rx="2" />
+                </svg>
+              </div>
+              <h3>Valorile</h3>
+              <p>
+                Get all the nutritional values of your preferred dish.
+              </p>
+            </article>
+          </div>
+        </section>
+
+        <section class="chatbot">
+          <div class="phone-wrap">
+            <div class="blob blob-one"></div>
+            <div class="blob blob-two"></div>
+            <div class="phone">
+              <div class="phone-top"></div>
+              <div class="phone-screen">
+                <div class="phone-title">Acordă o întrebare!</div>
+                <div class="phone-card"></div>
+                <div class="phone-card small"></div>
+                <div class="phone-input"></div>
+              </div>
+            </div>
+          </div>
+          <div class="chatbot-content">
+            <h2>AI Chatbot e alături de tine!</h2>
+            <p>
+              At HealthGenie, our approach is centered around providing
+              each user with tailored health guidance, leveraging cutting-edge
+              AI algorithms to cater to individual needs and preferences.
+              With HealthGenie residing in your phone, accessing personalized
+              health insights and support becomes seamless, empowering you
+              to proactively manage your well-being wherever you go.
+            </p>
+          </div>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>

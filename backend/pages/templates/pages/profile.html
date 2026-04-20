@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ro">
+  <head>
+    {% load static %}
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Health Care — Profil</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Sora:wght@500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="{% static 'pages/css/portal.css' %}?v=20260419-1742" />
+  </head>
+  <body>
+    <div class="page">
+      <header class="topbar">
+        <a href="{% url 'dashboard' %}" class="brand">
+          <span class="brand-mark" aria-hidden="true"></span>
+          <span class="brand-text">Health Care</span>
+        </a>
+        <nav class="menu">
+          <a href="{% url 'dashboard' %}">Dashboard</a>
+          <a href="{% url 'nutrition' %}">Nutriție</a>
+          <a href="{% url 'profile' %}" class="active">Profil</a>
+          <a href="{% url 'goals' %}">Obiective</a>
+          <a href="{% url 'habits' %}">Obiceiuri</a>
+          <a href="{% url 'history' %}">Istoric</a>
+          <a href="{% url 'logout' %}" class="logout">Logout</a>
+        </nav>
+      </header>
+
+      <section class="shell">
+        <div class="header-row">
+          <div>
+            <h1>Profilul Meu</h1>
+            <p>Date personale și măsurări actuale</p>
+          </div>
+          <span class="chip">{% now "d.m.Y" %}</span>
+        </div>
+
+        <div class="grid-2">
+          <article class="card">
+            <h2>Actualizează Datele</h2>
+            <form method="post" novalidate>
+              {% csrf_token %}
+              <div class="form-grid">
+                <label><span>Vârsta</span>{{ profile_form.age }}</label>
+                <label><span>Gen</span>{{ profile_form.gender }}</label>
+                <label><span>Înălțime (cm)</span>{{ profile_form.height_cm }}</label>
+                <label><span>Greutate (kg)</span>{{ profile_form.weight_kg }}</label>
+                <label><span>Piept (cm)</span>{{ profile_form.chest_cm }}</label>
+                <label><span>Talie (cm)</span>{{ profile_form.waist_cm }}</label>
+                <label><span>Șolduri (cm)</span>{{ profile_form.hips_cm }}</label>
+              </div>
+              <div class="btn-row">
+                <button type="submit">Salvează profilul</button>
+              </div>
+            </form>
+          </article>
+
+          <article class="card">
+            <h2>Status Curent</h2>
+            <div class="kpi">
+              <div class="item">
+                <span class="muted">BMI</span>
+                <strong>
+                  {% if profile.bmi %}
+                    {{ profile.bmi }}
+                  {% else %}
+                    -
+                  {% endif %}
+                </strong>
+                <span class="badge {% if bmi_status == 'în regulă' %}good{% else %}warn{% endif %}">{{ bmi_status }}</span>
+              </div>
+              <div class="item">
+                <span class="muted">Greutate</span>
+                <strong>
+                  {% if profile.weight_kg %}
+                    {{ profile.weight_kg }} kg
+                  {% else %}
+                    -
+                  {% endif %}
+                </strong>
+              </div>
+              <div class="item">
+                <span class="muted">Glicemie</span>
+                <strong>
+                  {% if latest_metric %}
+                    {{ latest_metric.blood_sugar_mg }} mg/dL
+                  {% else %}
+                    -
+                  {% endif %}
+                </strong>
+              </div>
+              <div class="item">
+                <span class="muted">Puls</span>
+                <strong>
+                  {% if latest_metric %}
+                    {{ latest_metric.bpm }} bpm
+                  {% else %}
+                    -
+                  {% endif %}
+                </strong>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <article class="card" style="margin-top:16px;">
+          <h3>Ultimele Măsurători</h3>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Data</th>
+                  <th>Glicemie</th>
+                  <th>BPM</th>
+                  <th>Tensiune</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for item in metrics_history %}
+                  <tr>
+                    <td>{{ item.created_at|date:"d.m.Y H:i" }}</td>
+                    <td>{{ item.blood_sugar_mg }} mg/dL</td>
+                    <td>{{ item.bpm }} bpm</td>
+                    <td>{{ item.blood_pressure_sys }}/{{ item.blood_pressure_dia }}</td>
+                  </tr>
+                {% empty %}
+                  <tr>
+                    <td colspan="4" class="helper">Nu există măsurători salvate.</td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </article>
+      </section>
+    </div>
+  </body>
+</html>

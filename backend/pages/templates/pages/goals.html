@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ro">
+  <head>
+    {% load static %}
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Health Care — Obiective</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Sora:wght@500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="{% static 'pages/css/portal.css' %}?v=20260419-1742" />
+  </head>
+  <body>
+    <div class="page">
+      <header class="topbar">
+        <a href="{% url 'dashboard' %}" class="brand">
+          <span class="brand-mark" aria-hidden="true"></span>
+          <span class="brand-text">Health Care</span>
+        </a>
+        <nav class="menu">
+          <a href="{% url 'dashboard' %}">Dashboard</a>
+          <a href="{% url 'nutrition' %}">Nutriție</a>
+          <a href="{% url 'profile' %}">Profil</a>
+          <a href="{% url 'goals' %}" class="active">Obiective</a>
+          <a href="{% url 'habits' %}">Obiceiuri</a>
+          <a href="{% url 'history' %}">Istoric</a>
+          <a href="{% url 'logout' %}" class="logout">Logout</a>
+        </nav>
+      </header>
+
+      <section class="shell">
+        <div class="header-row">
+          <div>
+            <h1>Obiective Personale</h1>
+            <p>Configurează ținte realiste și urmărește progresul zilnic</p>
+          </div>
+          <span class="chip">azi: {{ today|date:"d.m.Y" }}</span>
+        </div>
+
+        <div class="grid-2">
+          <article class="card">
+            <h2>Setează Obiectivele</h2>
+            <form method="post" novalidate>
+              {% csrf_token %}
+              <div class="form-grid">
+                <label><span>Greutate țintă (kg)</span>{{ goal_form.target_weight_kg }}</label>
+                <label><span>BMI țintă</span>{{ goal_form.target_bmi }}</label>
+                <label><span>Apă/zi (ml)</span>{{ goal_form.water_goal_ml }}</label>
+                <label><span>Somn/zi (ore)</span>{{ goal_form.sleep_goal_hours }}</label>
+                <label><span>Activitate (%)</span>{{ goal_form.activity_goal_percent }}</label>
+              </div>
+              <div class="btn-row">
+                <button type="submit">Salvează obiectivele</button>
+              </div>
+            </form>
+          </article>
+
+          <article class="card">
+            <h2>Progres Azi</h2>
+            <div class="stack">
+              <div>
+                <div class="bar-row">
+                  <span>Apă</span>
+                  <div class="progress"><i style="width: {{ progress.water }}%"></i></div>
+                  <strong>{{ summary.water }}/{{ goal.water_goal_ml }} ml</strong>
+                </div>
+              </div>
+              <div>
+                <div class="bar-row">
+                  <span>Somn</span>
+                  <div class="progress"><i style="width: {{ progress.sleep }}%"></i></div>
+                  <strong>{{ summary.sleep }}/{{ goal.sleep_goal_hours }} h</strong>
+                </div>
+              </div>
+              <div>
+                <div class="bar-row">
+                  <span>Activitate</span>
+                  <div class="progress"><i style="width: {{ progress.activity }}%"></i></div>
+                  <strong>{{ summary.activity }}/{{ goal.activity_goal_percent }}%</strong>
+                </div>
+              </div>
+              <div>
+                <div class="bar-row">
+                  <span>BMI</span>
+                  <div class="progress"><i style="width: {{ progress.bmi }}%"></i></div>
+                  <strong>{{ summary.bmi }} / {{ goal.target_bmi|default:"-" }}</strong>
+                </div>
+              </div>
+            </div>
+            <p class="helper" style="margin-top:10px;">
+              {% if summary.weight_gap %}
+                Distanță față de greutatea țintă: <strong>{{ summary.weight_gap }} kg</strong>.
+              {% else %}
+                Completează greutatea actuală și ținta pentru a vedea diferența.
+              {% endif %}
+            </p>
+          </article>
+        </div>
+      </section>
+    </div>
+  </body>
+</html>

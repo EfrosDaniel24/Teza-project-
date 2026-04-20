@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="ro">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Apple Health+ — Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&family=Sora:wght@500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="dashboard.css" />
+  </head>
+  <body>
+    <div class="page-title">Health app</div>
+
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="sidebar-icon primary">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path
+              d="M12 4v16M4 12h16"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              stroke-linecap="round"
+            />
+          </svg>
+        </div>
+        <div class="sidebar-icon active">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <rect x="5" y="5" width="6" height="6" rx="1.5" fill="currentColor" />
+            <rect x="13" y="5" width="6" height="6" rx="1.5" fill="currentColor" />
+            <rect x="5" y="13" width="6" height="6" rx="1.5" fill="currentColor" />
+            <rect x="13" y="13" width="6" height="6" rx="1.5" fill="currentColor" />
+          </svg>
+        </div>
+        <div class="sidebar-icon">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <rect x="6" y="7" width="12" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="2" />
+            <path d="M9 4h6" stroke="currentColor" stroke-width="2" />
+          </svg>
+        </div>
+        <div class="sidebar-icon">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path
+              d="M8 4h8a4 4 0 0 1 4 4v4a4 4 0 0 1-4 4H8l-4 4V8a4 4 0 0 1 4-4z"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            />
+          </svg>
+        </div>
+        <div class="sidebar-icon">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="2" />
+            <path d="M12 8v4l3 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+          </svg>
+        </div>
+        <div class="sidebar-icon">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path
+              d="M12 3l2.2 4.5 5 .7-3.6 3.5.9 5-4.5-2.3-4.5 2.3.9-5L4.8 8.2l5-.7z"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.6"
+            />
+          </svg>
+        </div>
+        <div class="sidebar-icon">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M6 7h12M6 12h12M6 17h12" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+          </svg>
+        </div>
+      </aside>
+
+      <main class="dashboard">
+        <header class="dash-header">
+          <div>
+            <h1>Dashboard</h1>
+            <span>13 Martie 2026</span>
+          </div>
+          <div class="dash-actions">
+            <button class="icon-btn">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2" />
+                <path d="M20 20l-3-3" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+              </svg>
+            </button>
+            <button class="icon-btn">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  d="M6 18h12l-1-2v-5a5 5 0 0 0-10 0v5l-1 2z"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                />
+              </svg>
+            </button>
+          </div>
+        </header>
+
+        <section class="metrics">
+          <article class="metric-card warm">
+            <div class="metric-top">
+              <div class="metric-icon">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <rect x="7" y="3" width="10" height="18" rx="4" fill="none" stroke="currentColor" stroke-width="2" />
+                  <path d="M12 7v6" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                </svg>
+              </div>
+              <span>Nivelul de în sânge</span>
+            </div>
+            <h2>80 <span>mg / dL</span></h2>
+            <div class="pill">Normal</div>
+            <div class="sparkline warm">
+              <svg viewBox="0 0 120 40" aria-hidden="true">
+                <path
+                  d="M2 28 C 16 16, 28 12, 40 20 S 62 32, 74 24 S 96 12, 118 22"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                />
+              </svg>
+            </div>
+          </article>
+          <article class="metric-card">
+            <div class="metric-top">
+              <div class="metric-icon">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path
+                    d="M3 12h4l2-4 3 8 3-6 2 2h4"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                  />
+                </svg>
+              </div>
+              <span>BPM</span>
+            </div>
+            <h2>98 <span>bpm</span></h2>
+            <div class="pill">Normal</div>
+            <div class="sparkline pink">
+              <svg viewBox="0 0 120 40" aria-hidden="true">
+                <path
+                  d="M2 26 C 18 20, 28 10, 42 18 S 64 30, 76 22 S 98 10, 118 20"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                />
+              </svg>
+            </div>
+          </article>
+          <article class="metric-card cool">
+            <div class="metric-top">
+              <div class="metric-icon">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path
+                    d="M12 3v10"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                  />
+                  <path
+                    d="M8 14a4 4 0 1 0 8 0"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  />
+                  <circle cx="12" cy="17" r="3" fill="none" stroke="currentColor" stroke-width="2" />
+                </svg>
+              </div>
+              <span>Blood Pressure</span>
+            </div>
+            <h2>102 <span>/ 72 mmhg</span></h2>
+            <div class="pill">Normal</div>
+            <div class="sparkline blue">
+              <svg viewBox="0 0 120 40" aria-hidden="true">
+                <path
+                  d="M2 24 C 16 12, 30 16, 42 24 S 64 36, 78 28 S 100 12, 118 18"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                />
+              </svg>
+            </div>
+          </article>
+        </section>
+
+        <section class="activity">
+          <div class="activity-header">
+            <h3>Activity Growth</h3>
+            <button class="select">Ianuarie</button>
+          </div>
+          <div class="chart-wrap">
+            <div class="chart-axis">
+              <span>80%</span>
+              <span>60%</span>
+              <span>40%</span>
+              <span>20%</span>
+            </div>
+            <div class="chart">
+              <div class="chart-row">
+                <div class="bar teal" style="--h: 60%"></div>
+                <div class="bar orange" style="--h: 40%"></div>
+                <div class="bar pink" style="--h: 30%"></div>
+              </div>
+              <div class="chart-row">
+                <div class="bar teal" style="--h: 80%"></div>
+                <div class="bar orange" style="--h: 60%"></div>
+                <div class="bar pink" style="--h: 40%"></div>
+              </div>
+              <div class="chart-row">
+                <div class="bar teal" style="--h: 55%"></div>
+                <div class="bar orange" style="--h: 35%"></div>
+                <div class="bar pink" style="--h: 25%"></div>
+              </div>
+              <div class="chart-row">
+                <div class="bar teal" style="--h: 75%"></div>
+                <div class="bar orange" style="--h: 65%"></div>
+                <div class="bar pink" style="--h: 50%"></div>
+              </div>
+              <div class="chart-row">
+                <div class="bar teal" style="--h: 68%"></div>
+                <div class="bar orange" style="--h: 45%"></div>
+                <div class="bar pink" style="--h: 35%"></div>
+              </div>
+              <div class="chart-row">
+                <div class="bar teal" style="--h: 90%"></div>
+                <div class="bar orange" style="--h: 55%"></div>
+                <div class="bar pink" style="--h: 48%"></div>
+              </div>
+              <div class="chart-row">
+                <div class="bar teal" style="--h: 65%"></div>
+                <div class="bar orange" style="--h: 40%"></div>
+                <div class="bar pink" style="--h: 30%"></div>
+              </div>
+              <div class="chart-row">
+                <div class="bar teal" style="--h: 72%"></div>
+                <div class="bar orange" style="--h: 50%"></div>
+                <div class="bar pink" style="--h: 32%"></div>
+              </div>
+              <div class="chart-row">
+                <div class="bar teal" style="--h: 88%"></div>
+                <div class="bar orange" style="--h: 62%"></div>
+                <div class="bar pink" style="--h: 45%"></div>
+              </div>
+              <div class="chart-row">
+                <div class="bar teal" style="--h: 62%"></div>
+                <div class="bar orange" style="--h: 42%"></div>
+                <div class="bar pink" style="--h: 28%"></div>
+              </div>
+              <div class="chart-row">
+                <div class="bar teal" style="--h: 78%"></div>
+                <div class="bar orange" style="--h: 58%"></div>
+                <div class="bar pink" style="--h: 36%"></div>
+              </div>
+              <div class="chart-row">
+                <div class="bar teal" style="--h: 70%"></div>
+                <div class="bar orange" style="--h: 48%"></div>
+                <div class="bar pink" style="--h: 34%"></div>
+              </div>
+            </div>
+          </div>
+          <div class="chart-labels">
+            <span>Jan 1</span>
+            <span>Jan 2</span>
+            <span>Jan 3</span>
+            <span>Jan 4</span>
+            <span>Jan 5</span>
+            <span>Jan 6</span>
+            <span>Jan 7</span>
+            <span>Jan 8</span>
+            <span>Jan 9</span>
+            <span>Jan 10</span>
+            <span>Jan 11</span>
+            <span>Jan 12</span>
+          </div>
+          <div class="legend">
+            <span><i class="dot teal"></i> Aerobics</span>
+            <span><i class="dot pink"></i> Yoga</span>
+            <span><i class="dot orange"></i> Meditation</span>
+          </div>
+        </section>
+
+        <section class="schedule">
+          <h3>Programări:</h3>
+          <div class="schedule-card">
+            <span class="badge">20 Martie</span>
+            <span>Consultație la Spitalul Municipal</span>
+          </div>
+        </section>
+      </main>
+
+      <aside class="right-panel">
+        <section class="bmi">
+          <div class="bmi-header">
+            <h3>BMI Calculator</h3>
+            <button class="select dark">Last Week</button>
+          </div>
+
+          <div class="bmi-grid">
+            <div class="bmi-chip warm">
+              <span>Înălțime</span>
+              <strong>170 cm</strong>
+            </div>
+            <div class="bmi-chip cool">
+              <span>Greutate</span>
+              <strong>72 kg</strong>
+            </div>
+          </div>
+
+          <div class="bmi-score">
+            <div class="bmi-score-top">
+              <div>
+                <span>Masa corporală</span>
+                <h4>24.9</h4>
+              </div>
+              <span class="status">în regulă</span>
+            </div>
+            <div class="range">
+              <div class="range-bar"></div>
+              <div class="range-labels">
+                <span>15</span>
+                <span>18.5</span>
+                <span>25</span>
+                <span>30</span>
+                <span>40</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="body">
+          <h3>Măsurările corpului</h3>
+          <div class="body-tags">
+            <span class="note">hhhhahhahah</span>
+            <span class="tag">asaaaaaaa</span>
+          </div>
+          <div class="body-grid">
+            <div class="measure">
+              <span>Piept</span>
+              <strong>44.5</strong>
+              <i class="trend up"></i>
+            </div>
+            <div class="figure">
+              <svg viewBox="0 0 140 300" aria-hidden="true">
+                <defs>
+                  <linearGradient id="skin" x1="0" x2="0" y1="0" y2="1">
+                    <stop offset="0%" stop-color="#ffd8b8" />
+                    <stop offset="100%" stop-color="#f5b48d" />
+                  </linearGradient>
+                </defs>
+                <rect x="50" y="18" width="40" height="40" rx="14" fill="#f2c2a1" />
+                <rect x="42" y="56" width="56" height="92" rx="18" fill="url(#skin)" />
+                <rect x="28" y="70" width="16" height="80" rx="8" fill="url(#skin)" />
+                <rect x="96" y="70" width="16" height="80" rx="8" fill="url(#skin)" />
+                <rect x="48" y="148" width="44" height="60" rx="16" fill="#1a1a1a" />
+                <rect x="38" y="206" width="20" height="76" rx="10" fill="url(#skin)" />
+                <rect x="82" y="206" width="20" height="76" rx="10" fill="url(#skin)" />
+                <rect x="32" y="278" width="26" height="12" rx="6" fill="#0d0d0d" />
+                <rect x="82" y="278" width="26" height="12" rx="6" fill="#0d0d0d" />
+                <ellipse cx="70" cy="110" rx="56" ry="16" fill="none" stroke="#ff7a7a" stroke-width="2" />
+                <ellipse cx="70" cy="170" rx="52" ry="14" fill="none" stroke="#ff7a7a" stroke-width="2" />
+              </svg>
+            </div>
+            <div class="measure">
+              <span>Talie</span>
+              <strong>34</strong>
+              <i class="trend down"></i>
+            </div>
+            <div class="measure">
+              <span>Șolduri</span>
+              <strong>42.5</strong>
+              <i class="trend down"></i>
+            </div>
+          </div>
+        </section>
+      </aside>
+    </div>
+  </body>
+</html>

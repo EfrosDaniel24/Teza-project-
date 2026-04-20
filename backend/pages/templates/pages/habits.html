@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ro">
+  <head>
+    {% load static %}
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Health Care — Obiceiuri</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Sora:wght@500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="{% static 'pages/css/portal.css' %}?v=20260419-1742" />
+  </head>
+  <body>
+    <div class="page">
+      <header class="topbar">
+        <a href="{% url 'dashboard' %}" class="brand">
+          <span class="brand-mark" aria-hidden="true"></span>
+          <span class="brand-text">Health Care</span>
+        </a>
+        <nav class="menu">
+          <a href="{% url 'dashboard' %}">Dashboard</a>
+          <a href="{% url 'nutrition' %}">Nutriție</a>
+          <a href="{% url 'profile' %}">Profil</a>
+          <a href="{% url 'goals' %}">Obiective</a>
+          <a href="{% url 'habits' %}" class="active">Obiceiuri</a>
+          <a href="{% url 'history' %}">Istoric</a>
+          <a href="{% url 'logout' %}" class="logout">Logout</a>
+        </nav>
+      </header>
+
+      <section class="shell">
+        <div class="header-row">
+          <div>
+            <h1>Hidratare și Somn</h1>
+            <p>Log zilnic + progres pentru ziua selectată</p>
+          </div>
+          <form method="get">
+            <input type="date" name="date" value="{{ selected_date_iso }}" onchange="this.form.submit()" />
+          </form>
+        </div>
+
+        <div class="grid-2">
+          <article class="card">
+            <h2>Înregistrare Rapidă</h2>
+
+            <form method="post" novalidate>
+              {% csrf_token %}
+              <input type="hidden" name="form_type" value="water" />
+              <h3>Apă</h3>
+              <div class="form-grid">
+                <label><span>Data</span>{{ water_form.date }}</label>
+                <label><span>Cantitate (ml)</span>{{ water_form.amount_ml }}</label>
+              </div>
+              <div class="btn-row">
+                <button type="submit">Salvează apă</button>
+              </div>
+            </form>
+
+            <hr style="border:none;border-top:1px solid #e5e8ef;margin:16px 0;" />
+
+            <form method="post" novalidate>
+              {% csrf_token %}
+              <input type="hidden" name="form_type" value="sleep" />
+              <h3>Somn</h3>
+              <div class="form-grid">
+                <label><span>Data</span>{{ sleep_form.date }}</label>
+                <label><span>Ore</span>{{ sleep_form.hours }}</label>
+              </div>
+              <div class="btn-row">
+                <button type="submit">Salvează somn</button>
+              </div>
+            </form>
+          </article>
+
+          <article class="card">
+            <h2>Ziua Selectată</h2>
+            <div class="stack">
+              <div class="bar-row">
+                <span>Apă</span>
+                <div class="progress"><i style="width: {{ progress.water }}%"></i></div>
+                <strong>{{ selected.water }} / {{ goal.water_goal_ml }} ml</strong>
+              </div>
+              <div class="bar-row">
+                <span>Somn</span>
+                <div class="progress"><i style="width: {{ progress.sleep }}%"></i></div>
+                <strong>{{ selected.sleep }} / {{ goal.sleep_goal_hours }} h</strong>
+              </div>
+            </div>
+            <p class="helper" style="margin-top:10px;">Medie 7 zile: {{ weekly_avg.water }} ml apă și {{ weekly_avg.sleep }} ore somn.</p>
+          </article>
+        </div>
+
+        <article class="card" style="margin-top:16px;">
+          <h3>Ultimele 7 Zile</h3>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Data</th>
+                  <th>Apă (ml)</th>
+                  <th>Somn (ore)</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for item in weekly_series %}
+                  <tr>
+                    <td>{{ item.label }}</td>
+                    <td>{{ item.water }}</td>
+                    <td>{{ item.sleep }}</td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </article>
+      </section>
+    </div>
+  </body>
+</html>

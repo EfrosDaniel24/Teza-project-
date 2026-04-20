@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="ro">
+  <head>
+    {% load static %}
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Health Care - Nutritie</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Sora:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="{% static 'pages/css/nutrition.css' %}?v=20260419-1812" />
+    <style>
+      .page-top{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:0 28px}
+      .top-menu{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+      .top-menu a{text-decoration:none;color:#4f5870;font-weight:700;padding:8px 0;border-bottom:2px solid transparent}
+      .top-menu a.active{color:#2f57df;border-color:#2f57df}
+      .top-menu a.logout{margin-left:8px;border:1px solid rgba(34,37,43,.1);border-radius:10px;padding:9px 14px}
+      .app-shell{display:block !important}
+      @media (max-width:980px){.page-top{padding:0 18px}}
+      @media (max-width:720px){.page-top{flex-direction:column;align-items:flex-start;padding:0 14px}}
+    </style>
+  </head>
+  <body>
+    <div class="page-top">
+      <div class="page-title">
+        <span class="page-title-copy">
+          <strong>Health Care</strong>
+        </span>
+      </div>
+      <nav class="top-menu">
+        <a href="{% url 'dashboard' %}">Dashboard</a>
+        <a class="active" href="{% url 'nutrition' %}">Nutriție</a>
+        <a href="{% url 'profile' %}">Profil</a>
+        <a href="{% url 'goals' %}">Obiective</a>
+        <a href="{% url 'habits' %}">Obiceiuri</a>
+        <a href="{% url 'history' %}">Istoric</a>
+        <a class="logout" href="{% url 'logout' %}">Logout</a>
+      </nav>
+    </div>
+
+    <div class="app-shell">
+      <main class="nutrition-panel">
+        <header class="nutrition-header">
+          <div class="header-actions">
+            <form method="get" class="date-form">
+              <input type="date" name="date" value="{{ selected_date_iso }}" onchange="this.form.submit()" />
+            </form>
+            <a class="subtle-link" href="{% url 'dashboard' %}">Monitorizare zilnică</a>
+            <a class="quick-add" href="#meal-breakfast">+ Adaugă rapid</a>
+          </div>
+        </header>
+
+        <section class="summary-grid">
+          <article class="summary-card orange">
+            <div class="summary-top"><span>Calorii</span><small>🔥</small></div>
+            <div class="summary-value">{{ totals.calories.value }}</div>
+            <div class="summary-goal">/ {{ totals.calories.goal }} kcal</div>
+            <div class="progress-track"><i style="width: {{ totals.calories.percent }}%"></i></div>
+            <div class="summary-meta">{{ totals.calories.percent }}% din obiectiv <span>{{ totals.calories.left }} kcal rămase</span></div>
+          </article>
+          <article class="summary-card blue">
+            <div class="summary-top"><span>Proteine</span><small>⚡</small></div>
+            <div class="summary-value">{{ totals.protein.value }}</div>
+            <div class="summary-goal">/ {{ totals.protein.goal }} g</div>
+            <div class="progress-track"><i style="width: {{ totals.protein.percent }}%"></i></div>
+            <div class="summary-meta">{{ totals.protein.percent }}% din obiectiv <span>{{ totals.protein.left }} g rămase</span></div>
+          </article>
+          <article class="summary-card green">
+            <div class="summary-top"><span>Carbohidrați</span><small>🌿</small></div>
+            <div class="summary-value">{{ totals.carbs.value }}</div>
+            <div class="summary-goal">/ {{ totals.carbs.goal }} g</div>
+            <div class="progress-track"><i style="width: {{ totals.carbs.percent }}%"></i></div>
+            <div class="summary-meta">{{ totals.carbs.percent }}% din obiectiv <span>{{ totals.carbs.left }} g rămase</span></div>
+          </article>
+          <article class="summary-card purple">
+            <div class="summary-top"><span>Grăsimi</span><small>🫐</small></div>
+            <div class="summary-value">{{ totals.fat.value }}</div>
+            <div class="summary-goal">/ {{ totals.fat.goal }} g</div>
+            <div class="progress-track"><i style="width: {{ totals.fat.percent }}%"></i></div>
+            <div class="summary-meta">{{ totals.fat.percent }}% din obiectiv <span>{{ totals.fat.left }} g rămase</span></div>
+          </article>
+        </section>
+
+        <section class="content-grid">
+          <main class="meals-column">
+            {% for card in meal_cards %}
+              <section class="meal-card" id="meal-{{ card.key }}">
+                <header class="meal-header">
+                  <div class="meal-label">
+                    <i class="meal-dot {{ card.tone }}"></i>
+                    <div>
+                      <h2>{{ card.label }}</h2>
+                      <p>{{ card.calories }} calorii</p>
+                    </div>
+                  </div>
+                  <details class="add-food">
+                    <summary>+ Adaugă aliment</summary>
+                    <form method="post" class="food-form" novalidate>
+                      {% csrf_token %}
+                      <input type="hidden" name="action" value="add_food" />
+                      <input type="hidden" name="date" value="{{ selected_date_iso }}" />
+                      {{ card.form.meal_type }}
+                      {{ card.form.name }}
+                      {{ card.form.serving }}
+                      {{ card.form.calories }}
+                      {{ card.form.protein_g }}
+                      {{ card.form.carbs_g }}
+                      {{ card.form.fat_g }}
+                      <button type="submit">Salvează</button>
+                    </form>
+                    {{ card.form.non_field_errors }}
+                  </details>
+                </header>
+
+                {% if card.entries %}
+                  <ul class="food-list">
+                    {% for item in card.entries %}
+                      <li>
+                        <div class="food-main">
+                          <strong>{{ item.name }}</strong>
+                          <span>{{ item.serving }}</span>
+                        </div>
+                        <span>{{ item.calories }} cal</span>
+                        <span>{{ item.protein_g }}g proteine</span>
+                        <span>{{ item.carbs_g }}g carbs</span>
+                        <span>{{ item.fat_g }}g grăsimi</span>
+                        <form method="post" class="delete-form">
+                          {% csrf_token %}
+                          <input type="hidden" name="action" value="delete_food" />
+                          <input type="hidden" name="entry_id" value="{{ item.id }}" />
+                          <input type="hidden" name="date" value="{{ selected_date_iso }}" />
+                          <button type="submit" title="Șterge">🗑</button>
+                        </form>
+                      </li>
+                    {% endfor %}
+                  </ul>
+                {% else %}
+                  <div class="empty-meal">
+                    <p>Nu ai alimente adăugate încă</p>
+                    <small>Apasă „Adaugă aliment” pentru a începe</small>
+                  </div>
+                {% endif %}
+              </section>
+            {% endfor %}
+          </main>
+
+          <aside class="stats-column">
+            <section class="stats-card">
+              <h3>Distribuire calorii</h3>
+              <div class="donut" style="--donut-fill: {{ breakdown.donut_style }}"></div>
+              <ul class="legend-list">
+                <li><i class="dot protein"></i>Proteine <span>{{ breakdown.protein_kcal }} cal ({{ breakdown.protein_pct }}%)</span></li>
+                <li><i class="dot carbs"></i>Carbohidrați <span>{{ breakdown.carbs_kcal }} cal ({{ breakdown.carbs_pct }}%)</span></li>
+                <li><i class="dot fat"></i>Grăsimi <span>{{ breakdown.fat_kcal }} cal ({{ breakdown.fat_pct }}%)</span></li>
+              </ul>
+            </section>
+
+            <section class="stats-card">
+              <h3>Progres vs obiective</h3>
+              <div class="bars">
+                <div><span>Calorii</span><i style="height: {{ totals.calories.percent }}%"></i></div>
+                <div><span>Proteine</span><i style="height: {{ totals.protein.percent }}%"></i></div>
+                <div><span>Carbohidrați</span><i style="height: {{ totals.carbs.percent }}%"></i></div>
+                <div><span>Grăsimi</span><i style="height: {{ totals.fat.percent }}%"></i></div>
+              </div>
+            </section>
+
+            <section class="stats-card">
+              <h3>Alți nutrienți</h3>
+              <div class="nutrient-row">
+                <p>Fibre <span>{{ other_nutrients.fiber.value }}/{{ other_nutrients.fiber.goal }} g</span></p>
+                <div class="progress-track"><i style="width: {{ other_nutrients.fiber.percent }}%"></i></div>
+              </div>
+              <div class="nutrient-row">
+                <p>Zahăr <span>{{ other_nutrients.sugar.value }}/{{ other_nutrients.sugar.goal }} g</span></p>
+                <div class="progress-track"><i style="width: {{ other_nutrients.sugar.percent }}%"></i></div>
+              </div>
+              <div class="nutrient-row">
+                <p>Sodiu <span>{{ other_nutrients.sodium.value }}/{{ other_nutrients.sodium.goal }} mg</span></p>
+                <div class="progress-track"><i style="width: {{ other_nutrients.sodium.percent }}%"></i></div>
+              </div>
+            </section>
+          </aside>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>

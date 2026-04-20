@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="ro">
+  <head>
+    {% load static %}
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Health Care — Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&family=Sora:wght@500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="{% static 'pages/css/dashboard.css' %}?v=20260419-1812" />
+    <style>
+      .page-top{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:0 28px}
+      .top-menu{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+      .top-menu a{text-decoration:none;color:#4f5870;font-weight:700;padding:8px 0;border-bottom:2px solid transparent}
+      .top-menu a.active{color:#2f57df;border-color:#2f57df}
+      .top-menu a.logout{margin-left:8px;border:1px solid rgba(34,37,43,.1);border-radius:10px;padding:9px 14px}
+      .app-shell{grid-template-columns:minmax(0,1fr) 420px !important}
+      @media (max-width:1100px){.app-shell{grid-template-columns:1fr !important;padding:20px}.right-panel{order:3}}
+      @media (max-width:860px){.page-top{flex-direction:column;align-items:flex-start;padding:0 14px}.app-shell{padding:12px}}
+    </style>
+  </head>
+  <body>
+    <div class="page-top">
+      <div class="page-title">
+        <span class="page-title-text">Health Care</span>
+      </div>
+      <nav class="top-menu">
+        <a class="active" href="{% url 'dashboard' %}">Dashboard</a>
+        <a href="{% url 'nutrition' %}">Nutriție</a>
+        <a href="{% url 'profile' %}">Profil</a>
+        <a href="{% url 'goals' %}">Obiective</a>
+        <a href="{% url 'habits' %}">Obiceiuri</a>
+        <a href="{% url 'history' %}">Istoric</a>
+        <a class="logout" href="{% url 'logout' %}">Logout</a>
+      </nav>
+    </div>
+
+    <div class="app-shell">
+      <main class="dashboard">
+        <header class="dash-header">
+          <div>
+            <h1>Dashboard</h1>
+            <span>{% now "d.m.Y" %}</span>
+          </div>
+          <div class="dash-actions">
+            <a class="icon-btn nutrition-link" href="{% url 'nutrition' %}" title="Nutritie">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12 4v16" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                <path d="M8 8h8" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                <path d="M8 12h8" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                <path d="M8 16h8" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+              </svg>
+            </a>
+            <button class="icon-btn">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2" />
+                <path d="M20 20l-3-3" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+              </svg>
+            </button>
+            <button class="icon-btn">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  d="M6 18h12l-1-2v-5a5 5 0 0 0-10 0v5l-1 2z"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                />
+              </svg>
+            </button>
+          </div>
+        </header>
+
+        <section class="metrics">
+          <article class="metric-card warm">
+            <div class="metric-top">
+              <div class="metric-icon">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <rect x="7" y="3" width="10" height="18" rx="4" fill="none" stroke="currentColor" stroke-width="2" />
+                  <path d="M12 7v6" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                </svg>
+              </div>
+              <span>Nivelul de în sânge</span>
+            </div>
+            <h2>
+              {% if metrics.blood_sugar %}
+                {{ metrics.blood_sugar }}
+              {% else %}
+                -
+              {% endif %}
+              <span>mg / dL</span>
+            </h2>
+            <div class="pill">{{ blood_sugar_status }}</div>
+            <div class="sparkline warm">
+              <svg viewBox="0 0 120 40" aria-hidden="true">
+                <path
+                  d="M2 28 C 16 16, 28 12, 40 20 S 62 32, 74 24 S 96 12, 118 22"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                />
+              </svg>
+            </div>
+          </article>
+          <article class="metric-card">
+            <div class="metric-top">
+              <div class="metric-icon">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path
+                    d="M3 12h4l2-4 3 8 3-6 2 2h4"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                  />
+                </svg>
+              </div>
+              <span>BPM</span>
+            </div>
+            <h2>
+              {% if metrics.bpm %}
+                {{ metrics.bpm }}
+              {% else %}
+                -
+              {% endif %}
+              <span>bpm</span>
+            </h2>
+            <div class="pill">{{ bpm_status }}</div>
+            <div class="sparkline pink">
+              <svg viewBox="0 0 120 40" aria-hidden="true">
+                <path
+                  d="M2 26 C 18 20, 28 10, 42 18 S 64 30, 76 22 S 98 10, 118 20"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                />
+              </svg>
+            </div>
+          </article>
+          <article class="metric-card cool">
+            <div class="metric-top">
+              <div class="metric-icon">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path
+                    d="M12 3v10"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                  />
+                  <path
+                    d="M8 14a4 4 0 1 0 8 0"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  />
+                  <circle cx="12" cy="17" r="3" fill="none" stroke="currentColor" stroke-width="2" />
+                </svg>
+              </div>
+              <span>Tensiune arterială</span>
+            </div>
+            <h2>
+              {% if metrics.bp_sys and metrics.bp_dia %}
+                {{ metrics.bp_sys }} <span>/ {{ metrics.bp_dia }} mmHg</span>
+              {% else %}
+                - <span>/ - mmHg</span>
+              {% endif %}
+            </h2>
+            <div class="pill">{{ bp_status }}</div>
+            <div class="sparkline blue">
+              <svg viewBox="0 0 120 40" aria-hidden="true">
+                <path
+                  d="M2 24 C 16 12, 30 16, 42 24 S 64 36, 78 28 S 100 12, 118 18"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                />
+              </svg>
+            </div>
+          </article>
+        </section>
+
+        <section class="metrics-form">
+          <h3>Actualizează măsurători rapide</h3>
+          <form class="mini-form" method="post" novalidate>
+            {% csrf_token %}
+            <input type="hidden" name="form_type" value="metrics" />
+            <input type="hidden" name="month" value="{{ activity_month_value }}" />
+            <div class="mini-grid">
+              {{ metric_form.blood_sugar_mg }}
+              {{ metric_form.bpm }}
+              {{ metric_form.blood_pressure_sys }}
+              {{ metric_form.blood_pressure_dia }}
+            </div>
+            <button class="mini-btn" type="submit">Salvează</button>
+          </form>
+        </section>
+
+        <section class="activity">
+          <div class="activity-header">
+            <h3>Progres activitate</h3>
+            <form method="get" class="activity-filter">
+              <select name="month" class="select-month" onchange="this.form.submit()">
+                {% for option in activity_month_options %}
+                  <option value="{{ option.value }}" {% if option.selected %}selected{% endif %}>
+                    {{ option.label }}
+                  </option>
+                {% endfor %}
+              </select>
+            </form>
+          </div>
+          <div class="chart-wrap">
+            <div class="chart-axis">
+              <span>100%</span>
+              <span>80%</span>
+              <span>60%</span>
+              <span>40%</span>
+              <span>20%</span>
+            </div>
+            <div class="chart" style="grid-template-columns: repeat({{ activity_series|length }}, 1fr);">
+              {% for entry in activity_series %}
+                <div class="chart-row">
+                  <div class="bar teal" style="--h: {{ entry.aerobics }}%"></div>
+                  <div class="bar orange" style="--h: {{ entry.meditation }}%"></div>
+                  <div class="bar pink" style="--h: {{ entry.yoga }}%"></div>
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+          <div class="chart-labels" style="grid-template-columns: repeat({{ activity_series|length }}, 1fr);">
+            {% for entry in activity_series %}
+              <span>{{ entry.label }}</span>
+            {% endfor %}
+          </div>
+          <div class="legend">
+            <span><i class="dot teal"></i> Aerobics</span>
+            <span><i class="dot pink"></i> Yoga</span>
+            <span><i class="dot orange"></i> Meditație</span>
+          </div>
+          <form class="mini-form" method="post" novalidate>
+            {% csrf_token %}
+            <input type="hidden" name="form_type" value="activity" />
+            <input type="hidden" name="month" value="{{ activity_month_value }}" />
+            <div class="mini-grid">
+              {{ activity_form.date }}
+              {{ activity_form.aerobics }}
+              {{ activity_form.yoga }}
+              {{ activity_form.meditation }}
+            </div>
+            <button class="mini-btn" type="submit">Adaugă activitate</button>
+          </form>
+        </section>
+
+        <section class="schedule">
+          <h3>Programări:</h3>
+          {% if appointments %}
+            {% for appointment in appointments %}
+              <div class="schedule-card">
+                <span class="badge">{{ appointment.date|date:"d M" }}</span>
+                <span>{{ appointment.title }}</span>
+              </div>
+            {% endfor %}
+          {% else %}
+            <div class="schedule-card">
+              <span class="badge">--</span>
+              <span>Nu ai programări încă.</span>
+            </div>
+          {% endif %}
+          <form class="mini-form" method="post" novalidate>
+            {% csrf_token %}
+            <input type="hidden" name="form_type" value="appointment" />
+            <input type="hidden" name="month" value="{{ activity_month_value }}" />
+            <div class="mini-grid">
+              {{ appointment_form.date }}
+              {{ appointment_form.title }}
+            </div>
+            <button class="mini-btn" type="submit">Adaugă programare</button>
+          </form>
+        </section>
+      </main>
+
+      <aside class="right-panel">
+        <section class="bmi">
+          <div class="bmi-header">
+            <h3>BMI Calculator</h3>
+            <button class="select dark">Ultima săptămână</button>
+          </div>
+
+          <div class="bmi-grid">
+            <div class="bmi-chip warm">
+              <span>Înălțime</span>
+              <strong>
+                {% if profile and profile.height_cm %}
+                  {{ profile.height_cm }} cm
+                {% else %}
+                  -
+                {% endif %}
+              </strong>
+            </div>
+            <div class="bmi-chip cool">
+              <span>Greutate</span>
+              <strong>
+                {% if profile and profile.weight_kg %}
+                  {{ profile.weight_kg }} kg
+                {% else %}
+                  -
+                {% endif %}
+              </strong>
+            </div>
+          </div>
+
+          <div class="bmi-score">
+            <div class="bmi-score-top">
+              <div>
+                <span>Masa corporală</span>
+                <h4>
+                  {% if profile and profile.bmi %}
+                    {{ profile.bmi }}
+                  {% else %}
+                    -
+                  {% endif %}
+                </h4>
+              </div>
+              <span class="status">{{ bmi_status }}</span>
+            </div>
+            <div class="range">
+              <div class="range-bar" style="--bmi-pos: {{ bmi_position }}"></div>
+              <div class="range-labels">
+                <span>15</span>
+                <span>18.5</span>
+                <span>25</span>
+                <span>30</span>
+                <span>40</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="body">
+          <h3>Măsurările corpului</h3>
+          <div class="body-tags">
+            <span class="note">Actualizat din profil</span>
+            <span class="tag">Măsurători recente</span>
+          </div>
+          <div class="body-grid">
+            <div class="measure">
+              <span>Piept</span>
+              <strong>
+                {% if profile and profile.chest_cm %}
+                  {{ profile.chest_cm }}
+                {% else %}
+                  -
+                {% endif %}
+              </strong>
+              <i class="trend up"></i>
+            </div>
+            <div class="figure">
+              {% if profile.gender == "feminin" %}
+                <svg viewBox="0 0 170 380" aria-hidden="true">
+                  <defs>
+                    <linearGradient id="skinToneF" x1="0" x2="0" y1="0" y2="1">
+                      <stop offset="0%" stop-color="#ffd8b8" />
+                      <stop offset="100%" stop-color="#dfa174" />
+                    </linearGradient>
+                    <linearGradient id="hairToneF" x1="0" x2="1" y1="0" y2="1">
+                      <stop offset="0%" stop-color="#20242f" />
+                      <stop offset="100%" stop-color="#0e1119" />
+                    </linearGradient>
+                    <linearGradient id="topToneF" x1="0" x2="0" y1="0" y2="1">
+                      <stop offset="0%" stop-color="#2d6f84" />
+                      <stop offset="100%" stop-color="#1d4958" />
+                    </linearGradient>
+                    <linearGradient id="pantsToneF" x1="0" x2="0" y1="0" y2="1">
+                      <stop offset="0%" stop-color="#2f3440" />
+                      <stop offset="100%" stop-color="#13171f" />
+                    </linearGradient>
+                    <linearGradient id="ringToneF" x1="0" x2="1" y1="0" y2="0">
+                      <stop offset="0%" stop-color="#ff6b7a" />
+                      <stop offset="100%" stop-color="#ff95a3" />
+                    </linearGradient>
+                    <filter id="softShadowF" x="-30%" y="-20%" width="160%" height="180%">
+                      <feDropShadow dx="0" dy="10" stdDeviation="7" flood-color="#000000" flood-opacity="0.24" />
+                    </filter>
+                  </defs>
+                  <ellipse cx="85" cy="184" rx="37" ry="127" fill="rgba(255,255,255,0.035)" />
+                  <ellipse cx="85" cy="373" rx="38" ry="7" fill="rgba(0,0,0,0.2)" />
+                  <g filter="url(#softShadowF)">
+                    <ellipse cx="85" cy="39" rx="17" ry="20" fill="url(#skinToneF)" />
+                    <path d="M68 35c0-15 8-24 17-24s17 9 17 24v12c-5-5-11-8-17-8s-12 3-17 8z" fill="url(#hairToneF)" />
+                    <path d="M68 48c-8 12-12 29-12 49v62h10V104c0-18 3-36 10-50z" fill="url(#hairToneF)" />
+                    <path d="M102 48c8 12 12 29 12 49v62h-10V104c0-18-3-36-10-50z" fill="url(#hairToneF)" />
+                    <circle cx="78" cy="41" r="1.2" fill="#2a2d32" />
+                    <circle cx="92" cy="41" r="1.2" fill="#2a2d32" />
+                    <path d="M80 49c1.7 1.8 4.3 1.8 6 0" stroke="#c78663" stroke-width="1.2" fill="none" stroke-linecap="round" />
+
+                    <rect x="80" y="58" width="10" height="20" rx="5" fill="url(#skinToneF)" />
+                    <path d="M58 92c0-14 12-22 27-22s27 8 27 22v80c0 31-11 54-27 64-16-10-27-33-27-64z" fill="url(#skinToneF)" />
+                    <path d="M62 107c3-9 11-14 23-14s20 5 23 14v37H62z" fill="url(#topToneF)" />
+                    <path d="M70 132c3-5 8-8 15-8s12 3 15 8" stroke="#3f91aa" stroke-width="1.8" fill="none" stroke-linecap="round" opacity="0.72" />
+                    <path d="M85 108v84" stroke="#d6b69d" stroke-width="1.9" stroke-linecap="round" opacity="0.68" />
+
+                    <rect x="41" y="113" width="12" height="106" rx="6" fill="url(#skinToneF)" />
+                    <rect x="117" y="113" width="12" height="106" rx="6" fill="url(#skinToneF)" />
+                    <ellipse cx="47" cy="219" rx="4.6" ry="4.2" fill="#de9d75" />
+                    <ellipse cx="123" cy="219" rx="4.6" ry="4.2" fill="#de9d75" />
+
+                    <path d="M60 183h50v66c0 22-10 34-25 38-15-4-25-16-25-38z" fill="url(#pantsToneF)" />
+                    <path d="M85 185v102" stroke="#3b404b" stroke-width="1.9" />
+
+                    <rect x="64" y="282" width="16" height="80" rx="8" fill="url(#skinToneF)" />
+                    <rect x="90" y="282" width="16" height="80" rx="8" fill="url(#skinToneF)" />
+                    <path d="M68 318h8M94 318h8" stroke="#d69873" stroke-width="1.4" stroke-linecap="round" />
+
+                    <path d="M58 360h27c7 0 11 5 11 11v1c0 5-3 8-8 8H63c-8 0-13-6-13-13z" fill="#090c12" />
+                    <path d="M85 360h27c8 0 13 6 13 13 0 5-3 8-8 8H92c-5 0-8-3-8-8z" fill="#090c12" />
+                  </g>
+                  <ellipse cx="85" cy="168" rx="54" ry="14" fill="none" stroke="url(#ringToneF)" stroke-width="2.7" />
+                  <ellipse cx="85" cy="220" rx="46" ry="12" fill="none" stroke="url(#ringToneF)" stroke-width="2.7" />
+                  <ellipse cx="85" cy="253" rx="41" ry="10.5" fill="none" stroke="url(#ringToneF)" stroke-width="2.4" opacity="0.92" />
+                </svg>
+              {% else %}
+                <svg viewBox="0 0 170 380" aria-hidden="true">
+                  <defs>
+                    <linearGradient id="skinToneM" x1="0" x2="0" y1="0" y2="1">
+                      <stop offset="0%" stop-color="#ffd8b3" />
+                      <stop offset="100%" stop-color="#e2a174" />
+                    </linearGradient>
+                    <linearGradient id="hairToneM" x1="0" x2="1" y1="0" y2="1">
+                      <stop offset="0%" stop-color="#151a23" />
+                      <stop offset="100%" stop-color="#0a0e14" />
+                    </linearGradient>
+                    <linearGradient id="shirtToneM" x1="0" x2="0" y1="0" y2="1">
+                      <stop offset="0%" stop-color="#e8eef8" />
+                      <stop offset="100%" stop-color="#d6dfec" />
+                    </linearGradient>
+                    <linearGradient id="shortsToneM" x1="0" x2="0" y1="0" y2="1">
+                      <stop offset="0%" stop-color="#2d323b" />
+                      <stop offset="100%" stop-color="#11161d" />
+                    </linearGradient>
+                    <linearGradient id="ringToneM" x1="0" x2="1" y1="0" y2="0">
+                      <stop offset="0%" stop-color="#5f93ff" />
+                      <stop offset="100%" stop-color="#7ad0ff" />
+                    </linearGradient>
+                    <filter id="softShadowM" x="-30%" y="-20%" width="160%" height="180%">
+                      <feDropShadow dx="0" dy="10" stdDeviation="7" flood-color="#000000" flood-opacity="0.24" />
+                    </filter>
+                  </defs>
+                  <ellipse cx="85" cy="184" rx="40" ry="128" fill="rgba(255,255,255,0.035)" />
+                  <ellipse cx="85" cy="373" rx="40" ry="7" fill="rgba(0,0,0,0.2)" />
+                  <g filter="url(#softShadowM)">
+                    <ellipse cx="85" cy="38" rx="18" ry="20" fill="url(#skinToneM)" />
+                    <path d="M67 34c0-14 8-23 18-23s18 9 18 23v10c-5-4-11-6-18-6s-13 2-18 6z" fill="url(#hairToneM)" />
+                    <path d="M71 49c3 8 8 12 14 12s11-4 14-12c-4 3-9 4-14 4s-10-1-14-4z" fill="url(#hairToneM)" />
+                    <circle cx="78" cy="40" r="1.25" fill="#2a2d32" />
+                    <circle cx="92" cy="40" r="1.25" fill="#2a2d32" />
+                    <path d="M80 47c1.8 1.8 4.2 1.8 6 0" stroke="#c78460" stroke-width="1.2" fill="none" stroke-linecap="round" />
+
+                    <rect x="79" y="57" width="12" height="22" rx="5" fill="url(#skinToneM)" />
+                    <path d="M53 90c0-15 13-24 32-24s32 9 32 24v89c0 25-14 40-32 40s-32-15-32-40z" fill="url(#skinToneM)" />
+                    <path d="M59 104c4-10 13-16 26-16s22 6 26 16v79c-7 8-45 8-52 0z" fill="url(#shirtToneM)" />
+                    <path d="M66 125c4 4 8 6 19 6s15-2 19-6" stroke="#bfd1e6" stroke-width="1.8" fill="none" stroke-linecap="round" opacity="0.82" />
+                    <path d="M85 103v86" stroke="#d8baa0" stroke-width="2" stroke-linecap="round" opacity="0.72" />
+
+                    <rect x="37" y="109" width="14" height="112" rx="7" fill="url(#skinToneM)" />
+                    <rect x="119" y="109" width="14" height="112" rx="7" fill="url(#skinToneM)" />
+                    <ellipse cx="44" cy="221" rx="4.9" ry="4.5" fill="#e09d74" />
+                    <ellipse cx="126" cy="221" rx="4.9" ry="4.5" fill="#e09d74" />
+
+                    <path d="M61 180h48v67c0 20-9 30-24 34-15-4-24-14-24-34z" fill="url(#shortsToneM)" />
+                    <path d="M85 182v99" stroke="#3b404b" stroke-width="2" />
+
+                    <rect x="63" y="281" width="18" height="81" rx="9" fill="url(#skinToneM)" />
+                    <rect x="89" y="281" width="18" height="81" rx="9" fill="url(#skinToneM)" />
+                    <path d="M67 318h9M94 318h9" stroke="#d79d78" stroke-width="1.4" stroke-linecap="round" />
+
+                    <path d="M57 360h29c7 0 11 5 11 11v1c0 5-4 8-8 8H62c-8 0-13-6-13-13z" fill="#090c12" />
+                    <path d="M84 360h29c8 0 13 6 13 13 0 5-4 8-8 8H91c-5 0-8-3-8-8z" fill="#090c12" />
+                  </g>
+                  <ellipse cx="85" cy="169" rx="56" ry="14" fill="none" stroke="url(#ringToneM)" stroke-width="2.8" />
+                  <ellipse cx="85" cy="220" rx="48" ry="12" fill="none" stroke="url(#ringToneM)" stroke-width="2.7" />
+                  <ellipse cx="85" cy="253" rx="42" ry="10.5" fill="none" stroke="url(#ringToneM)" stroke-width="2.4" opacity="0.92" />
+                </svg>
+              {% endif %}
+            </div>
+            <div class="measure">
+              <span>Talie</span>
+              <strong>
+                {% if profile and profile.waist_cm %}
+                  {{ profile.waist_cm }}
+                {% else %}
+                  -
+                {% endif %}
+              </strong>
+              <i class="trend down"></i>
+            </div>
+            <div class="measure">
+              <span>Șolduri</span>
+              <strong>
+                {% if profile and profile.hips_cm %}
+                  {{ profile.hips_cm }}
+                {% else %}
+                  -
+                {% endif %}
+              </strong>
+              <i class="trend down"></i>
+            </div>
+          </div>
+        </section>
+
+        <section class="profile-edit">
+          <h3>Actualizează datele</h3>
+          <form class="profile-form" method="post" novalidate>
+            {% csrf_token %}
+            <input type="hidden" name="form_type" value="profile" />
+            <input type="hidden" name="month" value="{{ activity_month_value }}" />
+            <div class="profile-grid">
+              <label>
+                <span>Vârsta</span>
+                {{ profile_form.age }}
+              </label>
+              <label>
+                <span>Gen</span>
+                {{ profile_form.gender }}
+              </label>
+              <label>
+                <span>Înălțime</span>
+                {{ profile_form.height_cm }}
+              </label>
+              <label>
+                <span>Greutate</span>
+                {{ profile_form.weight_kg }}
+              </label>
+              <label>
+                <span>Piept</span>
+                {{ profile_form.chest_cm }}
+              </label>
+              <label>
+                <span>Talie</span>
+                {{ profile_form.waist_cm }}
+              </label>
+              <label>
+                <span>Șolduri</span>
+                {{ profile_form.hips_cm }}
+              </label>
+            </div>
+            <button class="btn-save" type="submit">Salvează</button>
+          </form>
+        </section>
+      </aside>
+    </div>
+  </body>
+</html>

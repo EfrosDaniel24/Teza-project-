@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ro">
+  <head>
+    {% load static %}
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Health Care — Despre noi</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;700&family=Work+Sans:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="{% static 'pages/css/register.css' %}" />
+  </head>
+  <body>
+    <div class="page">
+      <header class="topbar">
+        <div class="logo">
+          <div class="logo-mark" aria-hidden="true">
+            <span></span>
+            <span></span>
+          </div>
+          <div class="logo-copy">
+            <div class="logo-text">Health Care</div>
+          </div>
+        </div>
+        <nav class="nav">
+          <a class="nav-link" href="{% url 'landing' %}">Home</a>
+          <a class="nav-link active" href="{% url 'about' %}">Despre noi</a>
+          <a class="nav-link" href="{% url 'howto' %}">Cum se folosește</a>
+          <a class="nav-link" href="{% url 'nutrition' %}">Nutritie</a>
+        </nav>
+        {% if user.is_authenticated %}
+          <a class="btn-secondary" href="{% url 'dashboard' %}">Dashboard</a>
+        {% else %}
+          <a class="btn-secondary" href="{% url 'login' %}">Conectare</a>
+        {% endif %}
+      </header>
+
+      <main class="register">
+        <section class="register-left">
+          <h1>Despre Health Care</h1>
+          <p>
+            Suntem o echipă care combină tehnologia și sănătatea pentru a-ți oferi
+            un ghid personalizat, simplu și accesibil.
+          </p>
+        </section>
+
+        <section class="register-card info-card">
+          <h2>Misiunea noastră</h2>
+          <p class="info-text">
+            Îți oferim instrumente clare pentru a-ți înțelege corpul, a-ți urmări
+            progresul și a lua decizii informate despre sănătatea ta.
+          </p>
+          <div class="info-list">
+            <div class="info-item">
+              <h3>Personalizare</h3>
+              <p>Recomandări pe baza măsurătorilor tale.</p>
+            </div>
+            <div class="info-item">
+              <h3>Simplitate</h3>
+              <p>Interfață ușor de folosit, cu pași clari.</p>
+            </div>
+            <div class="info-item">
+              <h3>Confidențialitate</h3>
+              <p>Datele tale rămân protejate și private.</p>
+            </div>
+          </div>
+          <div class="info-footer">
+            <span>Contact: support@healthcare.app</span>
+          </div>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>

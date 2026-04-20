@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ro">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Apple Health+ — Register</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;700&family=Work+Sans:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="register.css" />
+  </head>
+  <body>
+    <div class="page">
+      <header class="topbar">
+        <div class="logo">
+          <div class="logo-mark" aria-hidden="true">
+            <span></span>
+            <span></span>
+          </div>
+          <div class="logo-text">Apple Health<span>+</span></div>
+        </div>
+        <div class="top-actions">
+          <button class="lang">
+            Română
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" />
+            </svg>
+          </button>
+          <a class="link" href="#">Log In</a>
+          <button class="btn-secondary">Înregistrare</button>
+        </div>
+      </header>
+
+      <main class="register">
+        <section class="register-left">
+          <h1>Soluția pentru sănătatea ta!</h1>
+          <p>Ai grijă de corpul tău!</p>
+        </section>
+
+        <section class="register-card">
+          <h2>Welcome User</h2>
+          <form class="form">
+            <label class="input">
+              <span>Email</span>
+              <input type="email" placeholder="" />
+              <span class="icon">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path
+                    d="M4 6h16a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  />
+                  <path d="M22 8l-10 7L2 8" fill="none" stroke="currentColor" stroke-width="2" />
+                </svg>
+              </span>
+            </label>
+
+            <label class="input">
+              <span>Password</span>
+              <input type="password" value="password" />
+              <span class="icon">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path
+                    d="M4 12s3-5 8-5 8 5 8 5-3 5-8 5-8-5-8-5z"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  />
+                  <circle cx="12" cy="12" r="2" fill="currentColor" />
+                </svg>
+              </span>
+            </label>
+
+            <div class="row">
+              <label class="input">
+                <span>Vârsta</span>
+                <input type="text" />
+                <span class="icon">
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2" />
+                    <path d="M12 7v5l3 3" fill="none" stroke="currentColor" stroke-width="2" />
+                  </svg>
+                </span>
+              </label>
+              <label class="input">
+                <span>Genul</span>
+                <input type="text" />
+                <span class="icon">
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path
+                      d="M7 7l10 10M12 6a4 4 0 1 0 0 8 4 4 0 0 0 0-8z"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                    />
+                  </svg>
+                </span>
+              </label>
+            </div>
+
+            <div class="row">
+              <label class="input">
+                <span>Înălțime</span>
+                <input type="text" />
+                <span class="icon">
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M12 4v16" fill="none" stroke="currentColor" stroke-width="2" />
+                    <path d="M8 8l4-4 4 4" fill="none" stroke="currentColor" stroke-width="2" />
+                    <path d="M8 16l4 4 4-4" fill="none" stroke="currentColor" stroke-width="2" />
+                  </svg>
+                </span>
+              </label>
+              <label class="input">
+                <span>Greutate</span>
+                <input type="text" />
+                <span class="icon">
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path
+                      d="M7 6h10l2 12H5L7 6z"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    />
+                    <path d="M9 10h6" fill="none" stroke="currentColor" stroke-width="2" />
+                  </svg>
+                </span>
+              </label>
+            </div>
+
+            <button type="submit" class="btn-primary">Register</button>
+
+            <div class="divider">
+              <span>Or continue with</span>
+            </div>
+
+            <button type="button" class="btn-google">
+              <span>G</span>
+            </button>
+          </form>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>
